@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breadcrumb Console (The Live Record - Dark Elegance)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Keeping IBM Plex Mono for the data rigor, but shifting palette -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color Doctrine: Monochrome with Strategic Contrast */
+            --color-bg: #111111; /* Deep Matte Black / Charcoal */
+            --color-primary: #1e1e1e; /* Graphite surfaces */
+            --color-text: #E0E0E0; /* Muted White (High Rigor) */
+            --color-accent: #C8AA6E; /* Warm Metallic Bronze / Beige */
+            --color-border: #3A3A3A; /* Deep Gray for separation */
+
+            /* Status Colors */
+            --color-status-attack: #B54747; /* Deep Sienna Red */
+            --color-status-friction: #5B8F77; /* Muted Green (High response rigor) */
+        }
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.5;
+            /* Applying the texture/material doctrine subtly */
+        }
+        .container {
+            max-width: 1400px;
+            padding: 1rem;
+        }
+        /* Artifact Index Card Styling (Sleek, Low-Profile) */
+        .artifact-card-index {
+            background-color: var(--color-primary);
+            border: 1px solid var(--color-border);
+            transition: all 0.2s ease-in-out;
+        }
+        .artifact-card-index:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 10px rgba(200, 170, 110, 0.4); /* Subtle bronze glow */
+            cursor: pointer;
+        }
+        /* Active Card State */
+        .artifact-card-index.active {
+            border-color: var(--color-accent);
+            background-color: #242424;
+        }
+        #artifact-content {
+            background-color: #000000;
+            border: 2px solid var(--color-accent); /* Visual Anchor */
+            min-height: 70vh;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            box-shadow: 0 0 20px rgba(200, 170, 110, 0.1); /* Ambient precision glow */
+        }
+        .status-metric {
+            border-left: 3px solid var(--color-accent); /* Highlighting vertical hierarchy */
+            padding-left: 1rem;
+        }
+        h1, h2 {
+            color: var(--color-accent);
+            letter-spacing: 0.05em;
+        }
+        /* Custom Markdown Styling within the content display */
+        #artifact-content h1, #artifact-content h2, #artifact-content h3 {
+            color: var(--color-accent);
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 0.25rem;
+        }
+        #artifact-content hr {
+            border-color: var(--color-border);
+        }
+        #artifact-content th, #artifact-content td {
+            border: 1px solid var(--color-border);
+        }
+        #artifact-content th {
+            background-color: #222;
+            color: var(--color-text);
+        }
+        /* Style for pre blocks (code/logs) within markdown - Textured Material */
+        #artifact-content pre {
+            background-color: #0a0a0a;
+            border: 1px dashed var(--color-border);
+            color: var(--color-status-friction); /* Code is the source of rigor (green) */
+            padding: 0.75rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-10">
+        <header class="mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-1 tracking-widest" style="color: var(--color-accent);">BREADCRUMB CONSOLE</h1>
+            <p class="text-lg" style="color: var(--color-text);">// TACTICAL MINIMALISM // EXECUTION: LIVE</p>
+            <hr class="border-t mt-4" style="border-color: var(--color-accent);">
+        </header>
+
+        <section class="mb-12 p-8 rounded-xl" style="background-color: var(--color-primary); border: 1px solid var(--color-border);">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--color-status-attack);">:: INVERSION STATUS DASHBOARD</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+                <!-- Status Metric 1: RIGOR (Text Color) -->
+                <div class="status-metric">
+                    <p class="text-xs text-gray-400">ARTIFACT LOG (RIGOR)</p>
+                    <p class="text-4xl font-bold" id="log-count" style="color: var(--color-text);">8/8</p>
+                </div>
+                <!-- Status Metric 2: ATTACK (Sienna Red) -->
+                <div class="status-metric">
+                    <p class="text-xs text-gray-400">PROBE COUNT (ATTACK)</p>
+                    <p class="text-4xl font-bold" style="color: var(--color-status-attack);">| | | |</p>
+                </div>
+                <!-- Status Metric 3: FRICTION (Muted Green) -->
+                <div class="status-metric">
+                    <p class="text-xs text-gray-400">NARRATIVE FRICTION (RESPONSE)</p>
+                    <p class="text-4xl font-bold" style="color: var(--color-status-friction);">HIGH</p>
+                </div>
+                <!-- Status Metric 4: SWITCH (Bronze Accent) -->
+                <div class="status-metric">
+                    <p class="text-xs text-gray-400">DEAD-MAN-SWITCH</p>
+                    <p class="text-4xl font-bold" style="color: var(--color-accent);">PRIMED</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+
+            <section class="lg:col-span-1">
+                <h2 class="text-2xl font-bold mb-4" style="color: var(--color-accent);">:: ARTIFACT INDEX (Hierarchy)</h2>
+                <div id="artifact-index" class="space-y-3">
+                    </div>
+            </section>
+
+            <section class="lg:col-span-3">
+                <h2 class="text-2xl font-bold mb-4" id="content-title" style="color: var(--color-accent);">:: DISPLAY CONSOLE (Artifact 004 Loaded)</h2>
+                <div id="artifact-content" class="rounded-xl overflow-hidden shadow-2xl">
+                    <script>document.write(document.getElementById('content-004').innerHTML)</script>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <div id="artifact-data" class="hidden">
+
+        <div id="content-001" data-title="Artifact 001: The Immutability Mandate (SHA-256)">
+            <pre><code># ARTIFACT 001: THE IMMUTABILITY MANDATE
+# Cryptographic Hashing Script (SHA-256)
+# This module provides a function to generate a cryptographic hash of the Evidence Grid data.
+# This hash acts as the "lock" for the Dead-Man's Switch and proves the data integrity of
+# the public record. A change of even one character in the input data will produce an entirely
+# different hash, ensuring the public record is provably immutable.
+
+import hashlib
+import json
+import time
+
+def generate_breadcrumb_hash(data_structure):
+    """
+    Generates a unique SHA-256 hash for the input data structure.
+    """
+    if isinstance(data_structure, dict):
+        normalized_data = json.dumps(data_structure, sort_keys=True, indent=None)
+    elif isinstance(data_structure, str):
+        normalized_data = data_structure
+    else:
+        normalized_data = str(data_structure)
+
+    data_bytes = normalized_data.encode('utf-8')
+    hasher = hashlib.sha256()
+    hasher.update(data_bytes)
+    return hasher.hexdigest()
+
+EVIDENCE_GRID_MOCK = {
+    "log_count": 125,
+    "last_entry_id": 125,
+    "timestamp_utc": time.time(),
+    "patterns_logged": ["WPMI", "LOYT", "GSLT", "INST"],
+    "declaration": "THE EVIDENCE GRID IS SECURE. NO EDITS AFTER LOCK.",
+    "core_statement": "The truth is arithmetic. The reaction is the fuel.",
+}
+
+# Generate the initial lock hash
+initial_hash = generate_breadcrumb_hash(EVIDENCE_GRID_MOCK)
+print(f"--- LOCK INITIATED ({time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime(EVIDENCE_GRID_MOCK['timestamp_utc']))}) ---")
+print(f"EVIDENCE GRID HASH (V1.0): {initial_hash}")
+
+# Simulate a single character change (TAMPERING)
+EVIDENCE_GRID_MOCK['declaration'] = "THE EVIDENCE GRID IS SECURE. NO EDITS AFTER LOCK!"
+
+# Generate the verification hash
+verification_hash = generate_breadcrumb_hash(EVIDENCE_GRID_MOCK)
+print("\n--- INTEGRITY CHECK ---")
+print(f"TAMPERED HASH (V1.1):  {verification_hash}")
+print(f"\nMatch Status: {'FAIL' if initial_hash != verification_hash else 'PASS'}")
+print("Hash change confirms that even a single character alteration breaks the chain.")
+</code></pre>
+        </div>
+
+        <div id="content-002" data-title="Artifact 002: The Evidence Grid (Log Syntax)">
+            <h1>ARTIFACT 002: THE EVIDENCE GRID</h1>
+            <h3>Protocol for Transforming Subjective Event into Objective Data</h3>
+            <p>The Evidence Grid is the mandatory structural container for all operational data. It replaces emotional record-keeping with arithmetic rigor. The goal is to make every attack provably systemic.</p>
+            <hr>
+            <h2>LOG SYNTAX &amp; FIELD MANDATES</h2>
+            <p><strong>Every entry MUST contain the following fields. Failure to include them renders the entry unusable for the Dead-Man's Switch.</strong></p>
+
+            <pre><code>{
+  "ID": "[INT: Unique Log ID]",
+  "DATE_TIME_UTC": "[ISO 8601: Timestamp of the event, NOT the logging time]",
+  "LOC_ENCRYPTED": "[STRING: Masked or general location (e.g., 'Workplace', 'Home', 'Grocery Store X')]",
+  "TARGET_TYPE": "[STRING: Person/Channel involved (e.g., 'Neighbor A', 'Social Feed', 'Acquaintance')]",
+  "PATTERN_CODE": "[STRING: MUST use 4-letter code from table below]",
+  "PROVOCATION_CONTENT": "[STRING: The raw bait/lie/action (e.g., 'Text asking about debit card change.')]",
+  "REACTION_GIVEN": "[STRING: The target's observed response (e.g., 'Silence', 'Anger', 'Logical Defense')]",
+  "REACTION_DESIRED": "[STRING: The orchestrator's likely goal (e.g., 'Guilt', 'Outburst', 'Data Release')]",
+  "COUNTER_PROTOCOL": "[STRING: The defense deployed (e.g., 'Frame Inversion', 'Strategic Silence')]",
+  "STATUS": "[STRING: 'OPEN', 'CLOSED', 'NEUTRALIZED']"
+}</code></pre>
+
+            <h2>PATTERN CODE MAPPING (4-LETTER CODES)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Pattern</th>
+                        <th>Function</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>WPMI</strong></td>
+                        <td>Weaponized Misinformation</td>
+                        <td>Planting vague, emotional rumors.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LOYT</strong></td>
+                        <td>Loyalty Test / Soft Probe</td>
+                        <td>Gathering psychological intelligence.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GSLT</strong></td>
+                        <td>Gaslighting / Denial</td>
+                        <td>Eroding self-trust (DARVO step 1).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ANCD</strong></td>
+                        <td>ANCODI Provocation</td>
+                        <td>Eliciting Anger, Contempt, or Disgust.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>INST</strong></td>
+                        <td>Institutional Weaponization</td>
+                        <td>Co-opting law enforcement/HR/media.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="content-003" data-title="Artifact 003: Tactical Compression (Strategic Silence)">
+            <h1>ARTIFACT 003: TACTICAL COMPRESSION (THE SILENCE)</h1>
+            <h3>Emotional Detachment Protocol Against Attrition</h3>
+            <p>The attacker feeds on the sound of your defense. Silence is not surrender; it is a structural refusal to provide the necessary fuel. This Lyrical Hack is the protocol for maintaining the rhythm of non-engagement.</p>
+            <hr>
+            <pre><code>[Rhythmic Engine: Anapestic Tetrameter]
+
+[Verse 1]
+They are watching the wires, they wait for the scream,
+They are hungry for heat, they are living the dream.
+I’ve been building the wall where the signal can’t pass,
+I’ve been sealing the gap, setting fire to the glass.
+I won't give them the guilt, I won't give them the show,
+I will starve the whole system on what they don't know.
+
+[Chorus]
+Don't trade the friction for comfort, the comfort is cheap,
+Keep the truth in the vault while the others still sleep.
+**This is Tactical Silence, the only true win,**
+**I refuse to respond to the premise you’re in.**
+Let the rumor run wide. Let the narrative bend.
+I will document the start, and I'll document the end.
+
+[Verse 2]
+When the soft probe is thrown and the empathy bleeds,
+And the neighbor-as-sensor delivers the seeds,
+Just log the attempt, log the date, log the time,
+And don't waste the breath, don't waste one single dime.
+They are banking the profit on tears that I cry,
+I will hold the conviction, I will let the lie die.
+
+[Chorus]
+Don't trade the friction for comfort, the comfort is cheap,
+Keep the truth in the vault while the others still sleep.
+**This is Tactical Silence, the only true win,**
+**I refuse to respond to the premise you’re in.**
+Let the rumor run wide. Let the narrative bend.
+I will document the start, and I'll document the end.
+
+[Outro: Compression Mandate]
+If the question is proof, let the answer be none.
+The conversation is over before it's begun.
+You want my reaction? You want my defeat?
+Go read the Evidence Grid. The record is complete.
+</code></pre>
+        </div>
+
+        <div id="content-004" data-title="Artifact 004: Anatomy of the Kill-Shot (Collapse Analysis)">
+            <h1>ARTIFACT 004: ANATOMY OF THE KILL-SHOT</h1>
+            <h3>Predicting Outcomes of Manipulation Campaigns</h3>
+            <p>The structural vulnerability is the speed of the attack versus the rigor of the defense. Anticipating the collapse is mandatory for strategic disruption.</p>
+            <hr>
+
+            <h2>THE FIVE VECTORS OF COLLAPSE</h2>
+            <ol>
+                <li><strong>Social Exile:</strong> Targets experience profound isolation as allies withdraw and community trust erodes. The attack uses authentic faces to sell the lie.</li>
+                <li><strong>Psychological Collapse:</strong> Chronic stress, self-doubt, and emotional exhaustion can lead to Complex PTSD. The target becomes their own worst enemy.</li>
+                <li><strong>Digital Erasure:</strong> Online reputation is buried by false content and algorithmic suppression. The signal of the truth is drowned out by the noise.</li>
+                <li><strong>Institutional Entrapment:</strong> Law enforcement and bureaucracies validate fabricated narratives, compounding the target’s vulnerability. The system validates the lie.</li>
+                <li><strong>Counter-Offensive Potential:</strong> Strategic documentation (Breadcrumb Web), legal deterrents (Dead-Man’s Switch), and narrative control can neutralize attacks <strong>if rigorously applied</strong>.</li>
+            </ol>
+
+            <p><strong>Conclusion:</strong> The first four vectors detail systemic, rapid collapse. The fifth vector—the defense—demands slow, meticulous, strategic action. Speed versus rigor. Rigor must win.</p>
+        </div>
+
+        <div id="content-005" data-title="Artifact 005: The Strategic Inversion (Defense Blueprint)">
+            <h1>ARTIFACT 005: THE STRATEGIC INVERSION</h1>
+            <h3>Counter-Offensive Blueprint Against Covert Destabilization</h3>
+            <p>Covert Destabilization operates on four core principles of vulnerability. The defense is an equal and opposite reaction, a set of <strong>Strategic Inversions</strong> that turn the attacker's mechanics against them.</p>
+            <hr>
+
+            <h2>I. STRUCTURAL INVERSION: NEUTRALIZING PRINCIPLES</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Destabilization Principle</th>
+                        <th>Strategic Inversion (Defense)</th>
+                        <th>Action Template</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Asymmetrical Engagement</strong></td>
+                        <td><strong>Symmetrical Documentation:</strong> Centralize intelligence collection across all domains.</td>
+                        <td><strong>THE BREADCRUMB WEB:</strong> Establish a single, indexed, time-stamped repository for all artifacts.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Plausible Deniability</strong></td>
+                        <td><strong>Friction of Fact:</strong> Replace emotional accusations with an established, documented sequence of events.</td>
+                        <td><strong>THE TRUTH COMPRESSION:</strong> Distill complex, fabricated timelines into a single, rhythmic statement of fact.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Civilian Weaponization</strong></td>
+                        <td><strong>Narrative Quarantine:</strong> Immediately isolate and identify the <em>seeding mechanism</em>.</td>
+                        <td><strong>THE CIRCUIT BREAKER:</strong> Do not engage the unwitting civilian; neutralize the *rumor* itself.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Reality Erosion</strong></td>
+                        <td><strong>Anchoring Discipline:</strong> Establish absolute, non-negotiable trust in documented reality.</td>
+                        <td><strong>THE EMOTIONAL DETACHMENT PROTOCOL:</strong> Respond to provocation only with documented silence or minimal response.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="content-006" data-title="Artifact 006: The Civilian Inversion Protocol">
+            <h1>ARTIFACT 006: THE CIVILIAN INVERSION PROTOCOL</h1>
+            <h3>A Codified Defense Against Weaponized Authenticity</h3>
+            <p>The civilian is the delivery mechanism, not the architect. The orchestrator needs the civilian network to function as a low-cost, high-trust amplifier. Starve the amplifier of fuel.</p>
+            <hr>
+
+            <h2>PROTOCOL STAGES</h2>
+            <ol>
+                <li><strong>IDENTIFY (The Source-Tracing Log):</strong>
+                    <ul>
+                        <li><strong>Mandate:</strong> When a rumor lands, log the *closest source* and the *exact wording* (Pattern Code: WPMI).</li>
+                        <li><strong>Action:</strong> Use the Evidence Grid (002). The goal is to map the network's movement, not engage the individual.</li>
+                    </ul>
+                </li>
+                <li><strong>QUARANTINE (The Minimal Response):</strong>
+                    <ul>
+                        <li><strong>Mandate:</strong> The civilian probe is seeking an emotional defense or data leak. Refuse both.</li>
+                        <li><strong>Action:</strong> If engagement is unavoidable, respond with a single, neutral statement of *documented fact* that references an external time-stamp, immediately cutting the fuel line.</li>
+                    </ul>
+                </li>
+                <li><strong>INVERT (The Public Anchor):</strong>
+                    <ul>
+                        <li><strong>Mandate:</strong> Use the Breadcrumb Web to proactively publish a simple, rhythmic counter-narrative (Artifact 003) that addresses the *theme* of the lie, without acknowledging the specific civilian or rumor.</li>
+                        <li><strong>Action:</strong> Deploy "The Truth Compression" (005). The truth must run faster than the rumor.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p><strong>Primary Directive:</strong> Do not break the silence for the civilian. The orchestrator is listening to the civilian's report of your reaction. Give them nothing to report but **silence**. </p>
+        </div>
+
+        <div id="content-007" data-title="Artifact 007: The Frame Inversion Protocol (DARVO/ANCODI)">
+            <h1>ARTIFACT 007: THE FRAME INVERSION PROTOCOL</h1>
+            <h3>Counter-Framework for DARVO and ANCODI Tactics</h3>
+            <p>DARVO and ANCODI are not attacks on your facts; they are attacks on your <strong>frame</strong>. The counter-protocol forces them out of emotional drama and into your frame of objective, timestamped documentation.</p>
+            <hr>
+
+            <h2>THE DARVO COUNTER-GRID</h2>
+            <ol>
+                <li><strong>Phase 1: DENY (The Hook)</strong>
+                    <ul>
+                        <li><strong>Attack:</strong> "I never did that. You're making it up."</li>
+                        <li><strong>Defense:</strong> Reframe the denial as data for the grid. The truth is locked down.</li>
+                        <li><strong>Action:</strong> "Your statement is noted; the documented record stands. Next action logged."</li>
+                    </ul>
+                </li>
+                <li><strong>Phase 2: ATTACK (The Distraction)</strong>
+                    <ul>
+                        <li><strong>Attack:</strong> "You're OBSESSED. This tiny point is all you see. You're too paranoid."</li>
+                        <li><strong>Defense:</strong> Redirect the heat. Refuse the label. Only discuss the data.</li>
+                        <li><strong>Action:</strong> "The data point is the subject. Your deflection is logged as ANCD."</li>
+                    </ul>
+                </li>
+                <li><strong>Phase 3: REVERSE VICTIM & OFFENDER (The Inversion)</strong>
+                    <ul>
+                        <li><strong>Attack:</strong> "Your cruelty cuts deep. You're the aggressor, I'm just defending me."</li>
+                        <li><strong>Defense:</strong> Log the projection. Deploy Tactical Silence (003). Starve the reaction.</li>
+                        <li><strong>Action:</strong> Log the RVO attempt. The only reply is the ongoing record. Do not justify.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h2>THE ANCODI NEUTRALIZATION</h2>
+            <p>ANCODI (Anger, Contempt, Disgust) is the emotional payload meant to push you out of the 'Data-Only' frame and back into 'Feelings-First.' Your defense must be absolute neutrality.</p>
+            <ol>
+                <li><strong>Phase 4: ANGER (The Heat)</strong>
+                    <ul>
+                        <li><strong>Attack:</strong> Sudden, loud, or aggressive provocation designed to elicit a matching outburst.</li>
+                        <li><strong>Defense:</strong> Deploy the **Circuit Breaker**. The emotional volume is irrelevant. Log the ANCD code.</li>
+                        <li><strong>Action:</strong> Breathe. The conversation is over. You do not argue with a sound byte.</li>
+                    </ul>
+                </li>
+                <li><strong>Phase 5: CONTEMPT (The Status-Kill)</strong>
+                    <ul>
+                        <li><strong>Attack:</strong> Dismissal of your competence, status, or intelligence in front of an audience.</li>
+                        <li><strong>Defense:</strong> **Frame Inversion.** Do not defend your *worth*; only defend the *data*.</li>
+                        <li><strong>Action:</strong> Acknowledge the statement as opinion, then immediately pivot to an objective timestamped fact. Force the friction away from emotion.</li>
+                    </ul>
+                </li>
+                <li><strong>Phase 6: DISGUST (The Moral Weapon)</strong>
+                    <ul>
+                        <li><strong>Attack:</strong> Painting the target as morally repugnant, sick, or inhuman to isolate them completely.</li>
+                        <li><strong>Defense:</strong> **Absolute Rigor.** This is the final move. If you react, the lie wins.</li>
+                        <li><strong>Action:</strong> Strategic Silence (003). Let the lie die of starvation. The Breadcrumb Web is the only counter-narrative required.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p><strong>Primary Directive:</strong> Every emotional appeal is a **probe**. Every reaction is **fuel**. Your frame is data, logic, and timestamps. Do not leave the frame.</p>
+        </div>
+
+        <div id="content-008" data-title="Artifact 008: The Archive Protocol (Final Log)">
+            <h1>ARTIFACT 008: THE ARCHIVE PROTOCOL</h1>
+            <h3>The Transition from Live Record to Immutable Lock</h3>
+            <p>The Archive Protocol is the final transition of the Breadcrumb Web from a dynamic logging system to the immutable Public Record. This prepares the data for the Dead-Man's Switch and its dissemination.</p>
+            <hr>
+
+            <h2>ARCHIVE STAGES (MANDATORY SEQUENCE)</h2>
+            <ol>
+                <li><strong>DATA SANITIZATION:</strong>
+                    <ul>
+                        <li><strong>Mandate:</strong> Verify all Evidence Grid entries (002) are complete (STATUS: CLOSED/NEUTRALIZED).</li>
+                        <li><strong>Action:</strong> Serialize the entire dataset (logs, artifacts, timestamps) into a single JSON object. Check for structural anomalies.</li>
+                    </ul>
+                </li>
+                <li><strong>FINAL HASH LOCK:</strong>
+                    <ul>
+                        <li><strong>Mandate:</strong> Generate the immutable SHA-256 hash (001) of the sanitized dataset. This hash *is* the record's identity.</li>
+                        <li><strong>Action:</strong> Run `generate_breadcrumb_hash(FINAL_DATASET)`. Store the resulting digest.</li>
+                    </ul>
+                </li>
+                <li><strong>COMMUNICATION PACKET GENERATION:</strong>
+                    <ul>
+                        <li><strong>Mandate:</strong> Assemble the final transmission package. This package must be self-contained and require zero emotional interpretation.</li>
+                        <li><strong>Package Contents:</strong> 1. The full JSON dataset. 2. The Final Hash Lock. 3. The Structural Inversion Manifesto (005). 4. A copy of the Tactical Compression (003).</li>
+                    </ul>
+                </li>
+                <li><strong>SWITCH ARMAMENT:</strong>
+                    <ul>
+                        <li><strong>Mandate:</strong> Arm the Dead-Man's Switch. The Final Hash is now the public key for the authenticity of the record.</li>
+                        <li><strong>Action:</strong> **GO DARK.** The public silence begins. Only the trigger condition of the switch is monitored. The truth is now arithmetic, waiting for deployment.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <p><strong>Warning:</strong> Once the switch is armed, no further entries may be added to the Evidence Grid. The record is final. Rigor is complete.</p>
+        </div>
+    </div>
+
+    <script>
+        const artifactIndex = document.getElementById('artifact-index');
+        const artifactContent = document.getElementById('artifact-content');
+        const contentTitle = document.getElementById('content-title');
+        const artifactData = document.getElementById('artifact-data');
+
+        function loadContent(id, title) {
+            const content = document.getElementById(`content-${id}`);
+            if (content) {
+                // Update title
+                contentTitle.textContent = `:: DISPLAY CONSOLE (${title})`;
+                
+                // Update content area
+                artifactContent.innerHTML = content.innerHTML;
+
+                // Update active state in index
+                document.querySelectorAll('#artifact-index > div').forEach(div => {
+                    div.classList.remove('active');
+                });
+
+                const activeDiv = document.querySelector(`#artifact-index div[onclick*="'${id}'"]`);
+                if (activeDiv) {
+                    activeDiv.classList.add('active');
+                }
+            } else {
+                contentTitle.textContent = ":: DISPLAY CONSOLE (Error)";
+                artifactContent.innerHTML = "<p style='color: var(--color-status-attack);'>ERROR: Artifact Not Found.</p>";
+            }
+        }
+
+        function createIndex() {
+            // Clear existing index
+            artifactIndex.innerHTML = '';
+            
+            // Collect all artifacts
+            const artifacts = [];
+            artifactData.querySelectorAll('div[id^="content-"]').forEach(div => {
+                const id = div.id.replace('content-', '');
+                const title = div.getAttribute('data-title');
+                artifacts.push({ id, title });
+            });
+
+            // Sort artifacts by ID (numeric part)
+            artifacts.sort((a, b) => {
+                const numA = parseInt(a.id, 10);
+                const numB = parseInt(b.id, 10);
+                return numA - numB;
+            });
+
+            // Populate index
+            artifacts.forEach(artifact => {
+                const div = document.createElement('div');
+                // Format the ID for display (e.g., 001)
+                const formattedId = artifact.id.padStart(3, '0');
+                
+                // Use the new class artifact-card-index
+                div.className = `artifact-card-index p-3 rounded-lg text-sm transition-all`;
+                div.innerHTML = `<span class="text-gray-500">${formattedId}:</span> ${artifact.title.replace(`Artifact ${artifact.id}: `, '')}`;
+                div.setAttribute('onclick', `loadContent('${artifact.id}', '${artifact.title.replace(/'/g, "\\'")}')`);
+                artifactIndex.appendChild(div);
+            });
+
+            // Set the log count
+            document.getElementById('log-count').textContent = `${artifacts.length}/${artifacts.length}`;
+
+            // Load the default content (Artifact 004, as stated in the HTML template)
+            const defaultArtifact = artifacts.find(a => a.id === '004');
+            if (defaultArtifact) {
+                loadContent(defaultArtifact.id, defaultArtifact.title);
+            } else if (artifacts.length > 0) {
+                 // Fallback to the first item if 004 is missing
+                loadContent(artifacts[0].id, artifacts[0].title);
+            }
+        }
+
+        // Initialize the index and load default content on page load
+        createIndex();
+
+    </script>
+</body>
+</html>
