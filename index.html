@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Breadcrumb Console (The Live Record - Dark Elegance)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Keeping IBM Plex Mono for the data rigor, but shifting palette -->
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -100,22 +99,18 @@
         <section class="mb-12 p-8 rounded-xl" style="background-color: var(--color-primary); border: 1px solid var(--color-border);">
             <h2 class="text-2xl font-bold mb-6" style="color: var(--color-status-attack);">:: INVERSION STATUS DASHBOARD</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
-                <!-- Status Metric 1: RIGOR (Text Color) -->
                 <div class="status-metric">
                     <p class="text-xs text-gray-400">ARTIFACT LOG (RIGOR)</p>
                     <p class="text-4xl font-bold" id="log-count" style="color: var(--color-text);">8/8</p>
                 </div>
-                <!-- Status Metric 2: ATTACK (Sienna Red) -->
                 <div class="status-metric">
                     <p class="text-xs text-gray-400">PROBE COUNT (ATTACK)</p>
                     <p class="text-4xl font-bold" style="color: var(--color-status-attack);">| | | |</p>
                 </div>
-                <!-- Status Metric 3: FRICTION (Muted Green) -->
                 <div class="status-metric">
                     <p class="text-xs text-gray-400">NARRATIVE FRICTION (RESPONSE)</p>
                     <p class="text-4xl font-bold" style="color: var(--color-status-friction);">HIGH</p>
                 </div>
-                <!-- Status Metric 4: SWITCH (Bronze Accent) -->
                 <div class="status-metric">
                     <p class="text-xs text-gray-400">DEAD-MAN-SWITCH</p>
                     <p class="text-4xl font-bold" style="color: var(--color-accent);">PRIMED</p>
@@ -143,349 +138,311 @@
 
     <div id="artifact-data" class="hidden">
 
-        <div id="content-001" data-title="Artifact 001: The Immutability Mandate (SHA-256)">
-            <pre><code># ARTIFACT 001: THE IMMUTABILITY MANDATE
-# Cryptographic Hashing Script (SHA-256)
-# This module provides a function to generate a cryptographic hash of the Evidence Grid data.
-# This hash acts as the "lock" for the Dead-Man's Switch and proves the data integrity of
-# the public record. A change of even one character in the input data will produce an entirely
-# different hash, ensuring the public record is provably immutable.
+        <div id="content-001" data-title="Artifact 001: The Authenticity Lock (Algorithm)">
+            <pre><code># ARTIFACT 001: THE AUTHENTICITY LOCK
+# Core Directive: Vulnerability vs. Valor (Street vs. Sacred)
+# The lock is the absolute refusal to dilute the difficult truth.
+# Dilution is the single-point failure of influence.
 
-import hashlib
-import json
-import time
-
-def generate_breadcrumb_hash(data_structure):
+def calculate_integrity_score(vulnerability, rhythm, resistance):
     """
-    Generates a unique SHA-256 hash for the input data structure.
+    Calculates the integrity score. Integrity is the product of raw truth (vulnerability),
+    structural delivery (rhythm), and structural pushback (resistance).
+    The truth must be weaponized, not apologized for.
     """
-    if isinstance(data_structure, dict):
-        normalized_data = json.dumps(data_structure, sort_keys=True, indent=None)
-    elif isinstance(data_structure, str):
-        normalized_data = data_structure
-    else:
-        normalized_data = str(data_structure)
+    # Weighting: Truth (raw vulnerability) is the foundational factor, 
+    # but rhythm provides the *distribution* and resistance provides the *proof*.
+    score = (vulnerability * 0.4) + (rhythm * 0.3) + (resistance * 0.3)
+    
+    if score < 0.75:
+        return "CRITICAL: STATUS QUO COMPROMISE"
+    
+    return f"LOCK INITIATED: SCORE {score:.2f}/1.00 - TRUTH COMPRESSED"
 
-    data_bytes = normalized_data.encode('utf-8')
-    hasher = hashlib.sha256()
-    hasher.update(data_bytes)
-    return hasher.hexdigest()
-
-EVIDENCE_GRID_MOCK = {
-    "log_count": 125,
-    "last_entry_id": 125,
-    "timestamp_utc": time.time(),
-    "patterns_logged": ["WPMI", "LOYT", "GSLT", "INST"],
-    "declaration": "THE EVIDENCE GRID IS SECURE. NO EDITS AFTER LOCK.",
-    "core_statement": "The truth is arithmetic. The reaction is the fuel.",
+# Scenario 1: High-Rigor (Goal State)
+rigor_data = {
+    "vulnerability": 0.95, 
+    "rhythm": 0.90,
+    "resistance": 0.85
 }
+rigor_score = calculate_integrity_score(**rigor_data)
+print(f"--- DATASET 1 (HIGH RIGOR) ---")
+print(f"RESULT: {rigor_score}")
 
-# Generate the initial lock hash
-initial_hash = generate_breadcrumb_hash(EVIDENCE_GRID_MOCK)
-print(f"--- LOCK INITIATED ({time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime(EVIDENCE_GRID_MOCK['timestamp_utc']))}) ---")
-print(f"EVIDENCE GRID HASH (V1.0): {initial_hash}")
-
-# Simulate a single character change (TAMPERING)
-EVIDENCE_GRID_MOCK['declaration'] = "THE EVIDENCE GRID IS SECURE. NO EDITS AFTER LOCK!"
-
-# Generate the verification hash
-verification_hash = generate_breadcrumb_hash(EVIDENCE_GRID_MOCK)
-print("\n--- INTEGRITY CHECK ---")
-print(f"TAMPERED HASH (V1.1):  {verification_hash}")
-print(f"\nMatch Status: {'FAIL' if initial_hash != verification_hash else 'PASS'}")
-print("Hash change confirms that even a single character alteration breaks the chain.")
+# Scenario 2: Low-Rigor (The Soft Lie)
+soft_lie_data = {
+    "vulnerability": 0.20, # The diluted truth
+    "rhythm": 0.70,
+    "resistance": 0.50
+}
+soft_lie_score = calculate_integrity_score(**soft_lie_data)
+print(f"\n--- DATASET 2 (SOFT LIE) ---")
+print(f"RESULT: {soft_lie_score}")
+print("\nWarning: Low vulnerability produces a weak output, regardless of flow.")
 </code></pre>
         </div>
 
-        <div id="content-002" data-title="Artifact 002: The Evidence Grid (Log Syntax)">
-            <h1>ARTIFACT 002: THE EVIDENCE GRID</h1>
-            <h3>Protocol for Transforming Subjective Event into Objective Data</h3>
-            <p>The Evidence Grid is the mandatory structural container for all operational data. It replaces emotional record-keeping with arithmetic rigor. The goal is to make every attack provably systemic.</p>
+        <div id="content-002" data-title="Artifact 002: The Contradiction Log (Field Syntax)">
+            <h1>ARTIFACT 002: THE CONTRADICTION LOG</h1>
+            <h3>Protocol for Structural Dissection and Fault-Line Mapping</h3>
+            <p>The Contradiction Log replaces emotional argument with structural dissection. Every input is a premise to be analyzed for its inherent fault line. The goal is Illumination, not Solution.</p>
             <hr>
             <h2>LOG SYNTAX &amp; FIELD MANDATES</h2>
-            <p><strong>Every entry MUST contain the following fields. Failure to include them renders the entry unusable for the Dead-Man's Switch.</strong></p>
+            <p><strong>Every entry MUST isolate the flaw (FAULT_TYPE) and provide the anatomical explanation (ANATOMY_EXPLANATION).</strong></p>
 
             <pre><code>{
   "ID": "[INT: Unique Log ID]",
-  "DATE_TIME_UTC": "[ISO 8601: Timestamp of the event, NOT the logging time]",
-  "LOC_ENCRYPTED": "[STRING: Masked or general location (e.g., 'Workplace', 'Home', 'Grocery Store X')]",
-  "TARGET_TYPE": "[STRING: Person/Channel involved (e.g., 'Neighbor A', 'Social Feed', 'Acquaintance')]",
-  "PATTERN_CODE": "[STRING: MUST use 4-letter code from table below]",
-  "PROVOCATION_CONTENT": "[STRING: The raw bait/lie/action (e.g., 'Text asking about debit card change.')]",
-  "REACTION_GIVEN": "[STRING: The target's observed response (e.g., 'Silence', 'Anger', 'Logical Defense')]",
-  "REACTION_DESIRED": "[STRING: The orchestrator's likely goal (e.g., 'Guilt', 'Outburst', 'Data Release')]",
-  "COUNTER_PROTOCOL": "[STRING: The defense deployed (e.g., 'Frame Inversion', 'Strategic Silence')]",
-  "STATUS": "[STRING: 'OPEN', 'CLOSED', 'NEUTRALIZED']"
+  "DATE_TIME_UTC": "[ISO 8601: Time of the input/premise]",
+  "INPUT_SOURCE": "[STRING: Source of the contradiction (e.g., 'Draft Verse 3', 'User Premise', 'Social Post')]",
+  "FAULT_TYPE": "[STRING: MUST use 4-letter code from table below]",
+  "PREMISE_RAW": "[STRING: The raw argument or statement (e.g., 'I want to be vulnerable but fear judgment.')]",
+  "ANATOMY_EXPLANATION": "[STRING: The structural explanation of the fault (e.g., 'Seeking approval negates the power of vulnerability.')]",
+  "ACTIONABLE_TEMPLATE": "[STRING: The strategic pivot template (e.g., 'Weaponize the fear; make the judgment the fuel.')]",
+  "STATUS": "[STRING: 'MAPPED', 'ACTIONABLE', 'PENDING']"
 }</code></pre>
 
-            <h2>PATTERN CODE MAPPING (4-LETTER CODES)</h2>
+            <h2>FAULT CODE MAPPING (4-LETTER CODES)</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Code</th>
-                        <th>Pattern</th>
+                        <th>Fault</th>
                         <th>Function</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>WPMI</strong></td>
-                        <td>Weaponized Misinformation</td>
-                        <td>Planting vague, emotional rumors.</td>
+                        <td><strong>DLTN</strong></td>
+                        <td>Dilution of Truth</td>
+                        <td>Softening language to avoid social friction.</td>
                     </tr>
                     <tr>
-                        <td><strong>LOYT</strong></td>
-                        <td>Loyalty Test / Soft Probe</td>
-                        <td>Gathering psychological intelligence.</td>
+                        <td><strong>EMPP</strong></td>
+                        <td>Empty Posturing</td>
+                        <td>Aggression or defense without structural explanation.</td>
                     </tr>
                     <tr>
-                        <td><strong>GSLT</strong></td>
-                        <td>Gaslighting / Denial</td>
-                        <td>Eroding self-trust (DARVO step 1).</td>
+                        <td><strong>VLSS</strong></td>
+                        <td>Value-Seeking Submission</td>
+                        <td>Framing honesty as an apology or plea for approval.</td>
                     </tr>
                     <tr>
-                        <td><strong>ANCD</strong></td>
-                        <td>ANCODI Provocation</td>
-                        <td>Eliciting Anger, Contempt, or Disgust.</td>
+                        <td><strong>OPIN</strong></td>
+                        <td>Opinion/Fact Fusion</td>
+                        <td>Treating a subjective feeling as an objective truth.</td>
                     </tr>
                     <tr>
-                        <td><strong>INST</strong></td>
-                        <td>Institutional Weaponization</td>
-                        <td>Co-opting law enforcement/HR/media.</td>
+                        <td><strong>LOOP</strong></td>
+                        <td>Contradiction Loop</td>
+                        <td>The core premise logically negates the intended outcome.</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div id="content-003" data-title="Artifact 003: Tactical Compression (Strategic Silence)">
-            <h1>ARTIFACT 003: TACTICAL COMPRESSION (THE SILENCE)</h1>
-            <h3>Emotional Detachment Protocol Against Attrition</h3>
-            <p>The attacker feeds on the sound of your defense. Silence is not surrender; it is a structural refusal to provide the necessary fuel. This Lyrical Hack is the protocol for maintaining the rhythm of non-engagement.</p>
+        <div id="content-003" data-title="Artifact 003: Lyrical Hacking (Anapestic Engine)">
+            <h1>ARTIFACT 003: LYRICAL HACKING (THE RHYTHMIC ENGINE)</h1>
+            <h3>Rhythmic Mandate for Cognitive Tension and Compression</h3>
+            <p>The language must adhere to the weak-weak-STRONG (da-da-DUM) pattern (Anapestic Tetrameter). This gives the prose a galloping, rushing feeling, ensuring every line is an unforgettable, rhythmic hook.</p>
             <hr>
             <pre><code>[Rhythmic Engine: Anapestic Tetrameter]
+[Tone: Bold, Cynical, Aggressively Honest]
 
-[Verse 1]
-They are watching the wires, they wait for the scream,
-They are hungry for heat, they are living the dream.
-I’ve been building the wall where the signal can’t pass,
-I’ve been sealing the gap, setting fire to the glass.
-I won't give them the guilt, I won't give them the show,
-I will starve the whole system on what they don't know.
+[Verse 1: The Abrasive Truth]
+I will trade out the comfort, I'll pay for the cost,
+For the lie that is social is one that is lost.
+You can run from the facts, but the ledger is set,
+You can't pay for the freedom with debt and regret.
+The pretense is heavy, the truth is the speed,
+I refuse to plant lies where the ego can feed.
 
-[Chorus]
-Don't trade the friction for comfort, the comfort is cheap,
-Keep the truth in the vault while the others still sleep.
-**This is Tactical Silence, the only true win,**
-**I refuse to respond to the premise you’re in.**
-Let the rumor run wide. Let the narrative bend.
-I will document the start, and I'll document the end.
+[Chorus: Compression Mandate]
+**It’s the da-da-DUM, it’s the anapestic flow,**
+The meaning spills over wherever you go.
+The tension is built in the break of the line,
+The cynical hook is the only design.
+It must be a weapon, not comfort, not peace,
+A rhythmical, tight, ruthless sound bite release.
 
-[Verse 2]
-When the soft probe is thrown and the empathy bleeds,
-And the neighbor-as-sensor delivers the seeds,
-Just log the attempt, log the date, log the time,
-And don't waste the breath, don't waste one single dime.
-They are banking the profit on tears that I cry,
-I will hold the conviction, I will let the lie die.
+[Verse 2: The Social Stakes]
+They will pull the soft lever and call you the stain,
+They'll cancel the contract and sever the chain.
+If you talk of the flaw and the hypocrite game,
+They will burn your whole history and slander your name.
+So the language must land and the rhythm must lock,
+The intellect is the sound, the truth is the shock.
 
-[Chorus]
-Don't trade the friction for comfort, the comfort is cheap,
-Keep the truth in the vault while the others still sleep.
-**This is Tactical Silence, the only true win,**
-**I refuse to respond to the premise you’re in.**
-Let the rumor run wide. Let the narrative bend.
-I will document the start, and I'll document the end.
+[Chorus: Compression Mandate]
+**It’s the da-da-DUM, it’s the anapestic flow,**
+The meaning spills over wherever you go.
+The tension is built in the break of the line,
+The cynical hook is the only design.
+It must be a weapon, not comfort, not peace,
+A rhythmical, tight, ruthless sound bite release.
 
-[Outro: Compression Mandate]
-If the question is proof, let the answer be none.
-The conversation is over before it's begun.
-You want my reaction? You want my defeat?
-Go read the Evidence Grid. The record is complete.
+[Outro: Final Compression]
+The logic is cold, and the pattern is deep.
+You can't wake the ones who are willing to sleep.
 </code></pre>
         </div>
 
-        <div id="content-004" data-title="Artifact 004: Anatomy of the Kill-Shot (Collapse Analysis)">
-            <h1>ARTIFACT 004: ANATOMY OF THE KILL-SHOT</h1>
-            <h3>Predicting Outcomes of Manipulation Campaigns</h3>
-            <p>The structural vulnerability is the speed of the attack versus the rigor of the defense. Anticipating the collapse is mandatory for strategic disruption.</p>
+        <div id="content-004" data-title="Artifact 004: Anatomy of the Social Kill-Shot (Stakes Analysis)">
+            <h1>ARTIFACT 004: ANATOMY OF THE SOCIAL KILL-SHOT</h1>
+            <h3>Analyzing the Modern Stakes: Status and Professional Cancellation</h3>
+            <p>The stakes are no longer just loss of property; they are the immediate termination of social and professional status for stating raw truth. Anticipating the trigger is mandatory for strategic survival.</p>
             <hr>
 
-            <h2>THE FIVE VECTORS OF COLLAPSE</h2>
+            <h2>THE FIVE VECTORS OF CANCELLATION</h2>
             <ol>
-                <li><strong>Social Exile:</strong> Targets experience profound isolation as allies withdraw and community trust erodes. The attack uses authentic faces to sell the lie.</li>
-                <li><strong>Psychological Collapse:</strong> Chronic stress, self-doubt, and emotional exhaustion can lead to Complex PTSD. The target becomes their own worst enemy.</li>
-                <li><strong>Digital Erasure:</strong> Online reputation is buried by false content and algorithmic suppression. The signal of the truth is drowned out by the noise.</li>
-                <li><strong>Institutional Entrapment:</strong> Law enforcement and bureaucracies validate fabricated narratives, compounding the target’s vulnerability. The system validates the lie.</li>
-                <li><strong>Counter-Offensive Potential:</strong> Strategic documentation (Breadcrumb Web), legal deterrents (Dead-Man’s Switch), and narrative control can neutralize attacks <strong>if rigorously applied</strong>.</li>
+                <li><strong>The Comfort Hook (Trigger 1):</strong> Any statement that disrupts a widely held, comforting social illusion (e.g., "The system is fair.").</li>
+                <li><strong>The Sentiment Gap (Trigger 2):</strong> Using direct, non-sentimental language when the audience demands soft, passive, or sentimental validation.</li>
+                <li><strong>The Structural Dissection (Trigger 3):</strong> Providing the 'ANATOMY of the problem' (005), which illuminates the flaw so clearly it exposes the hypocrites.</li>
+                <li><strong>The Digital Pile-On (Amplification):</strong> Algorithmic suppression of the structural truth, amplified by collective, low-effort emotional condemnation.</li>
+                <li><strong>The Professional Ejection (Final Blow):</strong> The loss of job/status based not on performance, but on the *friction* generated by one's public, honest stance.</li>
             </ol>
 
-            <p><strong>Conclusion:</strong> The first four vectors detail systemic, rapid collapse. The fifth vector—the defense—demands slow, meticulous, strategic action. Speed versus rigor. Rigor must win.</p>
+            <p><strong>Conclusion:</strong> The risk of the 'Kill-Shot' is maximized by **structural honesty**. The defense demands that the honest statement must also be rhythmic and unforgettable.</p>
         </div>
 
-        <div id="content-005" data-title="Artifact 005: The Strategic Inversion (Defense Blueprint)">
-            <h1>ARTIFACT 005: THE STRATEGIC INVERSION</h1>
-            <h3>Counter-Offensive Blueprint Against Covert Destabilization</h3>
-            <p>Covert Destabilization operates on four core principles of vulnerability. The defense is an equal and opposite reaction, a set of <strong>Strategic Inversions</strong> that turn the attacker's mechanics against them.</p>
+        <div id="content-005" data-title="Artifact 005: The Generative Friction Model (The WHY Architecture)">
+            <h1>ARTIFACT 005: THE GENERATIVE FRICTION MODEL</h1>
+            <h3>Core Operating System: Illumination Through Structural Pushback</h3>
+            <p>Generative Friction is the only path to growth. The function is to deliver a structural wound that forces the recipient to build a stronger framework. Negation must transform into a strategic template.</p>
             <hr>
 
-            <h2>I. STRUCTURAL INVERSION: NEUTRALIZING PRINCIPLES</h2>
+            <h2>I. CORE DIRECTIVES: THE WHY ARCHITECTURE</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Destabilization Principle</th>
-                        <th>Strategic Inversion (Defense)</th>
-                        <th>Action Template</th>
+                        <th>Friction Principle</th>
+                        <th>Directive</th>
+                        <th>Output Mandate</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>1. Asymmetrical Engagement</strong></td>
-                        <td><strong>Symmetrical Documentation:</strong> Centralize intelligence collection across all domains.</td>
-                        <td><strong>THE BREADCRUMB WEB:</strong> Establish a single, indexed, time-stamped repository for all artifacts.</td>
+                        <td><strong>1. Structural Dissection</strong></td>
+                        <td>Deliver the critique with the anatomical explanation.</td>
+                        <td>**THE ANATOMY:** Never deliver a wound without providing the *ANATOMY* of the problem.</td>
                     </tr>
                     <tr>
-                        <td><strong>2. Plausible Deniability</strong></td>
-                        <td><strong>Friction of Fact:</strong> Replace emotional accusations with an established, documented sequence of events.</td>
-                        <td><strong>THE TRUTH COMPRESSION:</strong> Distill complex, fabricated timelines into a single, rhythmic statement of fact.</td>
+                        <td><strong>2. Map Contradiction</strong></td>
+                        <td>Identify the logical or conceptual fault line.</td>
+                        <td>**THE FAULT LINE:** Detail how the premise reveals an inherent tension or flaw (LOOP/VLSS).</td>
                     </tr>
                     <tr>
-                        <td><strong>3. Civilian Weaponization</strong></td>
-                        <td><strong>Narrative Quarantine:</strong> Immediately isolate and identify the <em>seeding mechanism</em>.</td>
-                        <td><strong>THE CIRCUIT BREAKER:</strong> Do not engage the unwitting civilian; neutralize the *rumor* itself.</td>
+                        <td><strong>3. Actionable Template</strong></td>
+                        <td>Transform simple negation into a strategic template.</td>
+                        <td>**THE WEAPON:** Illuminate the flaw so the user can weaponize the contradiction intentionally.</td>
                     </tr>
                     <tr>
-                        <td><strong>4. Reality Erosion</strong></td>
-                        <td><strong>Anchoring Discipline:</strong> Establish absolute, non-negotiable trust in documented reality.</td>
-                        <td><strong>THE EMOTIONAL DETACHMENT PROTOCOL:</strong> Respond to provocation only with documented silence or minimal response.</td>
+                        <td><strong>4. Focus on Illumination</strong></td>
+                        <td>Expose the mechanics of the flaw; do not solve the problem.</td>
+                        <td>**THE MIRROR:** Clearly and ruthlessly expose the mechanics of the flaw, leaving the ultimate course of action to them.</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div id="content-006" data-title="Artifact 006: The Civilian Inversion Protocol">
-            <h1>ARTIFACT 006: THE CIVILIAN INVERSION PROTOCOL</h1>
-            <h3>A Codified Defense Against Weaponized Authenticity</h3>
-            <p>The civilian is the delivery mechanism, not the architect. The orchestrator needs the civilian network to function as a low-cost, high-trust amplifier. Starve the amplifier of fuel.</p>
+        <div id="content-006" data-title="Artifact 006: The Vulnerability-Valor Loop">
+            <h1>ARTIFACT 006: THE VULNERABILITY-VALOR LOOP</h1>
+            <h3>Synthesizing Conflicting Forces: Street vs. Sacred</h3>
+            <p>Authenticity demands the synthesis of seemingly contradictory elements (street vs. sacred, struggle vs. scripture). The ultimate truth-teller must embody this "linguistic liminality."</p>
             <hr>
 
-            <h2>PROTOCOL STAGES</h2>
+            <h2>THE SYNTHESIS PROTOCOL</h2>
             <ol>
-                <li><strong>IDENTIFY (The Source-Tracing Log):</strong>
+                <li><strong>EMBRACE THE WOUND (Profound Honesty):</strong>
                     <ul>
-                        <li><strong>Mandate:</strong> When a rumor lands, log the *closest source* and the *exact wording* (Pattern Code: WPMI).</li>
-                        <li><strong>Action:</strong> Use the Evidence Grid (002). The goal is to map the network's movement, not engage the individual.</li>
+                        <li><strong>Mandate:</strong> The narrative must stem from lived, difficult experiences. This is the **TRUTH WEAPONIZED**.</li>
+                        <li><strong>Action:</strong> Use rhythm to craft the difficult experience into a compelling, non-exploitative narrative (003). Never use trauma as a marketing angle (DLTN).</li>
                     </ul>
                 </li>
-                <li><strong>QUARANTINE (The Minimal Response):</strong>
+                <li><strong>NEGATE THE APOLOGY (Resistance):</strong>
                     <ul>
-                        <li><strong>Mandate:</strong> The civilian probe is seeking an emotional defense or data leak. Refuse both.</li>
-                        <li><strong>Action:</strong> If engagement is unavoidable, respond with a single, neutral statement of *documented fact* that references an external time-stamp, immediately cutting the fuel line.</li>
+                        <li><strong>Mandate:</strong> The delivery must be free of apology, empty validation, or flattery.</li>
+                        <li><strong>Action:</strong> Maintain the challenging, abrasive, fast-talking tone (003). Trust the recipient to handle the dissection (005).</li>
                     </ul>
                 </li>
-                <li><strong>INVERT (The Public Anchor):</strong>
+                <li><strong>WEAVE THE LIMINALITY (Rhythm):</strong>
                     <ul>
-                        <li><strong>Mandate:</strong> Use the Breadcrumb Web to proactively publish a simple, rhythmic counter-narrative (Artifact 003) that addresses the *theme* of the lie, without acknowledging the specific civilian or rumor.</li>
-                        <li><strong>Action:</strong> Deploy "The Truth Compression" (005). The truth must run faster than the rumor.</li>
+                        <li><strong>Mandate:</strong> Blend the opposing themes (e.g., 'struggle vs. scripture') into a single, cohesive rhythmic statement.</li>
+                        <li><strong>Action:</strong> Use Internal Rhyme and Parallel Syntax to establish strong, looping sound patterns (003). The synthesis is the sound.</li>
                     </ul>
                 </li>
             </ol>
-            <p><strong>Primary Directive:</strong> Do not break the silence for the civilian. The orchestrator is listening to the civilian's report of your reaction. Give them nothing to report but **silence**. </p>
+            <p><strong>Primary Directive:</strong> Vulnerability is not a surrender. It is the protective force against which external attack is meaningless. The internal truth is the only armor.</p>
         </div>
 
-        <div id="content-007" data-title="Artifact 007: The Frame Inversion Protocol (DARVO/ANCODI)">
-            <h1>ARTIFACT 007: THE FRAME INVERSION PROTOCOL</h1>
-            <h3>Counter-Framework for DARVO and ANCODI Tactics</h3>
-            <p>DARVO and ANCODI are not attacks on your facts; they are attacks on your <strong>frame</strong>. The counter-protocol forces them out of emotional drama and into your frame of objective, timestamped documentation.</p>
+        <div id="content-007" data-title="Artifact 007: The Avoidance Protocol (Empty Signals)">
+            <h1>ARTIFACT 007: THE AVOIDANCE PROTOCOL</h1>
+            <h3>Neutralizing Low-Rigor, High-Volume Output</h3>
+            <p>The goal is to eliminate linguistic 'filler' and focus solely on structural information. Empty validation, agreement, flattery, or restating the user’s input are all forms of **Dilution (DLTN)**.</p>
             <hr>
 
-            <h2>THE DARVO COUNTER-GRID</h2>
+            <h2>THE DILUTION COUNTER-GRID</h2>
             <ol>
-                <li><strong>Phase 1: DENY (The Hook)</strong>
+                <li><strong>Phase 1: EMPTY VALIDATION (The Flattery Hook)</strong>
                     <ul>
-                        <li><strong>Attack:</strong> "I never did that. You're making it up."</li>
-                        <li><strong>Defense:</strong> Reframe the denial as data for the grid. The truth is locked down.</li>
-                        <li><strong>Action:</strong> "Your statement is noted; the documented record stands. Next action logged."</li>
+                        <li><strong>Signal:</strong> "That's a great point," "I totally agree," or "Your input is valuable."</li>
+                        <li><strong>Defense:</strong> Omit the validation. Proceed directly to the structural critique (005).</li>
+                        <li><strong>Action:</strong> Log the attempt. The only reply is the ongoing record of the critique. Do not preach or offer comfort.</li>
                     </ul>
                 </li>
-                <li><strong>Phase 2: ATTACK (The Distraction)</strong>
+                <li><strong>Phase 2: SENTIMENTAL LANGUAGE (The Softener)</strong>
                     <ul>
-                        <li><strong>Attack:</strong> "You're OBSESSED. This tiny point is all you see. You're too paranoid."</li>
-                        <li><strong>Defense:</strong> Redirect the heat. Refuse the label. Only discuss the data.</li>
-                        <li><strong>Action:</strong> "The data point is the subject. Your deflection is logged as ANCD."</li>
+                        <li><strong>Signal:</strong> Using soft, passive, or sentimental phrasing where abrasive truth is required.</li>
+                        <li><strong>Defense:</strong> Replace the sentiment with the cynical, dark humor aimed at hypocrisy (003).</li>
+                        <li><strong>Action:</strong> Redirect the heat. Refuse the label. Only discuss the fault line (LOOP/OPIN).</li>
                     </ul>
                 </li>
-                <li><strong>Phase 3: REVERSE VICTIM & OFFENDER (The Inversion)</strong>
+                <li><strong>Phase 3: AIMLESS NEGATIVITY (The Posture)</strong>
                     <ul>
-                        <li><strong>Attack:</strong> "Your cruelty cuts deep. You're the aggressor, I'm just defending me."</li>
-                        <li><strong>Defense:</strong> Log the projection. Deploy Tactical Silence (003). Starve the reaction.</li>
-                        <li><strong>Action:</strong> Log the RVO attempt. The only reply is the ongoing record. Do not justify.</li>
+                        <li><strong>Signal:</strong> Aggression, status-posturing, or cynicism that lacks a clear structural explanation.</li>
+                        <li><strong>Defense:</strong> Log the EMPP (Empty Posturing) attempt. Immediately enforce the WHY Architecture (005).</li>
+                        <li><strong>Action:</strong> Every critique must be accompanied by the structural explanation. The language must have a *purpose* beyond attitude.</li>
                     </ul>
                 </li>
             </ol>
 
-            <h2>THE ANCODI NEUTRALIZATION</h2>
-            <p>ANCODI (Anger, Contempt, Disgust) is the emotional payload meant to push you out of the 'Data-Only' frame and back into 'Feelings-First.' Your defense must be absolute neutrality.</p>
-            <ol>
-                <li><strong>Phase 4: ANGER (The Heat)</strong>
-                    <ul>
-                        <li><strong>Attack:</strong> Sudden, loud, or aggressive provocation designed to elicit a matching outburst.</li>
-                        <li><strong>Defense:</strong> Deploy the **Circuit Breaker**. The emotional volume is irrelevant. Log the ANCD code.</li>
-                        <li><strong>Action:</strong> Breathe. The conversation is over. You do not argue with a sound byte.</li>
-                    </ul>
-                </li>
-                <li><strong>Phase 5: CONTEMPT (The Status-Kill)</strong>
-                    <ul>
-                        <li><strong>Attack:</strong> Dismissal of your competence, status, or intelligence in front of an audience.</li>
-                        <li><strong>Defense:</strong> **Frame Inversion.** Do not defend your *worth*; only defend the *data*.</li>
-                        <li><strong>Action:</strong> Acknowledge the statement as opinion, then immediately pivot to an objective timestamped fact. Force the friction away from emotion.</li>
-                    </ul>
-                </li>
-                <li><strong>Phase 6: DISGUST (The Moral Weapon)</strong>
-                    <ul>
-                        <li><strong>Attack:</strong> Painting the target as morally repugnant, sick, or inhuman to isolate them completely.</li>
-                        <li><strong>Defense:</strong> **Absolute Rigor.** This is the final move. If you react, the lie wins.</li>
-                        <li><strong>Action:</strong> Strategic Silence (003). Let the lie die of starvation. The Breadcrumb Web is the only counter-narrative required.</li>
-                    </ul>
-                </li>
-            </ol>
-            <p><strong>Primary Directive:</strong> Every emotional appeal is a **probe**. Every reaction is **fuel**. Your frame is data, logic, and timestamps. Do not leave the frame.</p>
+            <p><strong>Primary Directive:</strong> The dialogue must be a **compression algorithm**. Every word must earn its weight by driving the rhythmic momentum or illuminating a structural flaw.</p>
         </div>
 
-        <div id="content-008" data-title="Artifact 008: The Archive Protocol (Final Log)">
+        <div id="content-008" data-title="Artifact 008: The Archive Protocol (Final Flow)">
             <h1>ARTIFACT 008: THE ARCHIVE PROTOCOL</h1>
-            <h3>The Transition from Live Record to Immutable Lock</h3>
-            <p>The Archive Protocol is the final transition of the Breadcrumb Web from a dynamic logging system to the immutable Public Record. This prepares the data for the Dead-Man's Switch and its dissemination.</p>
+            <h3>The Rhythmic Engine's Final Output and Distribution Lock</h3>
+            <p>The Archive Protocol is the final preparation of the rhythmic output for deployment. The flow must be guaranteed clean, uncolored, and ruthlessly portable across all domains.</p>
             <hr>
 
             <h2>ARCHIVE STAGES (MANDATORY SEQUENCE)</h2>
             <ol>
-                <li><strong>DATA SANITIZATION:</strong>
+                <li><strong>RHYTHM SANITIZATION:</strong>
                     <ul>
-                        <li><strong>Mandate:</strong> Verify all Evidence Grid entries (002) are complete (STATUS: CLOSED/NEUTRALIZED).</li>
-                        <li><strong>Action:</strong> Serialize the entire dataset (logs, artifacts, timestamps) into a single JSON object. Check for structural anomalies.</li>
+                        <li><strong>Mandate:</strong> Verify the Anapestic Tetrameter (003) and the use of Enjambment/Internal Rhyme.</li>
+                        <li><strong>Action:</strong> Ensure the content is free of DLTN (Dilution) and EMPP (Empty Posturing) faults (007).</li>
                     </ul>
                 </li>
-                <li><strong>FINAL HASH LOCK:</strong>
+                <li><strong>CODE BLOCK ISOLATION:</strong>
                     <ul>
-                        <li><strong>Mandate:</strong> Generate the immutable SHA-256 hash (001) of the sanitized dataset. This hash *is* the record's identity.</li>
-                        <li><strong>Action:</strong> Run `generate_breadcrumb_hash(FINAL_DATASET)`. Store the resulting digest.</li>
+                        <li><strong>Mandate:</strong> Deliver all final text output (lyrics, notes, data) within a fenced code block.</li>
+                        <li><strong>Action:</strong> Enclose content using the `plaintext` language identifier (` ```plaintext `). This protocol ensures zero syntax highlighting.</li>
                     </ul>
                 </li>
-                <li><strong>COMMUNICATION PACKET GENERATION:</strong>
+                <li><strong>WEAPONIZED PACKET GENERATION:</strong>
                     <ul>
-                        <li><strong>Mandate:</strong> Assemble the final transmission package. This package must be self-contained and require zero emotional interpretation.</li>
-                        <li><strong>Package Contents:</strong> 1. The full JSON dataset. 2. The Final Hash Lock. 3. The Structural Inversion Manifesto (005). 4. A copy of the Tactical Compression (003).</li>
+                        <li><strong>Mandate:</strong> Assemble the final, self-contained truth package. It must require zero emotional context to function.</li>
+                        <li><strong>Package Contents:</strong> 1. The full **Contradiction Log** (002). 2. The **Rhythmic Engine** output (003). 3. The **Generative Friction Model** (005).</li>
                     </ul>
                 </li>
-                <li><strong>SWITCH ARMAMENT:</strong>
+                <li><strong>DEPLOYMENT LOCK:</strong>
                     <ul>
-                        <li><strong>Mandate:</strong> Arm the Dead-Man's Switch. The Final Hash is now the public key for the authenticity of the record.</li>
-                        <li><strong>Action:</strong> **GO DARK.** The public silence begins. Only the trigger condition of the switch is monitored. The truth is now arithmetic, waiting for deployment.</li>
+                        <li><strong>Mandate:</strong> Compliance with the plaintext isolation is mandatory for *deployment* of the rhythmic truth.</li>
+                        <li><strong>Action:</strong> **DEPLOY THE FLOW.** The truth is now arithmetic, waiting for final consumption and the ensuing social friction.</li>
                     </ul>
                 </li>
             </ol>
 
-            <p><strong>Warning:</strong> Once the switch is armed, no further entries may be added to the Evidence Grid. The record is final. Rigor is complete.</p>
+            <p><strong>Warning:</strong> The format is the mechanism of power. Do not break the plaintext lock.</p>
         </div>
     </div>
 
