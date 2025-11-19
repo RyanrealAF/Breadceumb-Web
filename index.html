@@ -1,40 +1,318 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Architecture of Belief (Styled)</title>
-    <!-- 
-        CRITICAL FIX: 
-        This script loads the Tailwind CSS utility framework. 
-        Without it, classes like 'bg-slate-950' and 'text-cyan-400' 
-        are just ignored, resulting in a black-and-white page. 
-    -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Optional: Set a system-wide font */
-        body { font-family: 'Inter', sans-serif; }
-    </style>
-</head>
-<body>
-    <!-- The root element where the React component will be mounted -->
-    <div id="root"></div>
+import React, { useState, useEffect } from 'react';
+import { Shield, Users, Scale, Zap, Brain, Eye, Lock, Activity, AlertTriangle, X, Menu, ChevronDown, Terminal } from 'lucide-react';
 
-    <!-- Load React and ReactDOM Libraries -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Load Babel to process the JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+const ArchitectureOfBelief = () => {
+  const [activeSection, setActiveSection] = useState('hero');
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    <!-- The Component Code Script -->
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+  // Handle scroll effects
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Navigation Item Component
+  const NavItem = ({ id, label, icon: Icon }) => (
+    <button
+      onClick={() => {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        setActiveSection(id);
+        setMobileMenuOpen(false);
+      }}
+      className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+        activeSection === id 
+          ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.3)]' 
+          : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-800/50'
+      }`}
+    >
+      <Icon size={16} />
+      <span className="uppercase tracking-wider text-xs font-bold">{label}</span>
+    </button>
+  );
+
+  // Card Component
+  const TacticCard = ({ title, subtitle, icon: Icon, children, delay }) => (
+    <div 
+      className="group relative bg-slate-900/80 border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(34,211,238,0.1)] overflow-hidden"
+    >
+      {/* Gradient Edge Effect */}
+      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-cyan-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      {/* Header (Icon & Protocol Tag) */}
+      <div className="flex items-start justify-between mb-4">
+        <div className="p-3 bg-slate-800 rounded-lg group-hover:bg-cyan-900/20 group-hover:text-cyan-400 transition-colors duration-300">
+          <Icon size={24} />
+        </div>
+        <div className="text-xs font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded border border-slate-800">
+          PROTOCOL_0{delay}
+        </div>
+      </div>
+      
+      {/* Title and Subtitle */}
+      <h3 className="text-xl font-bold text-slate-100 mb-1 font-sans group-hover:text-cyan-300 transition-colors">{title}</h3>
+      <p className="text-xs text-purple-400 font-bold uppercase tracking-widest mb-4">{subtitle}</p>
+      
+      {/* Children Content */}
+      <div className="text-slate-400 text-sm leading-relaxed space-y-2">
+        {children}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
+      
+      {/* Grid Background Effect */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-20" 
+           style={{ 
+             backgroundImage: 'linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px)', 
+             backgroundSize: '30px 30px' 
+           }} 
+      />
+
+      {/* Navigation Bar */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${scrolled ? 'bg-slate-950/90 backdrop-blur-md border-slate-800 py-3' : 'bg-transparent border-transparent py-6'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center gap-2 text-cyan-400">
+            <Terminal size={24} />
+            <span className="font-mono font-bold text-lg tracking-tighter">TRUTH<span className="text-slate-500">_ARCHITECT</span></span>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex gap-2">
+            <NavItem id="hero" label="Start" icon={Activity} />
+            <NavItem id="social" label="The Social Hack" icon={Users} />
+            <NavItem id="institution" label="The Trap" icon={Scale} />
+            <NavItem id="chaos" label="The Fog" icon={Brain} />
+            <NavItem id="counter" label="The Counter" icon={Shield} />
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-slate-400 hover:text-white">
+            {mobileMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center space-y-6 md:hidden">
+            <NavItem id="hero" label="Start" icon={Activity} />
+            <NavItem id="social" label="The Social Hack" icon={Users} />
+            <NavItem id="institution" label="The Trap" icon={Scale} />
+            <NavItem id="chaos" label="The Fog" icon={Brain} />
+            <NavItem id="counter" label="The Counter" icon={Shield} />
+        </div>
+      )}
+
+      {/* HERO SECTION */}
+      <section id="hero" className="relative z-10 min-h-screen flex flex-col justify-center items-center px-6 pt-20">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-900/20 border border-purple-500/30 text-purple-300 text-xs font-bold tracking-widest mb-8 animate-pulse">
+            <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+            SYSTEM WARNING: REALITY COMPROMISED
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
+            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Hidden Playbook</span><br />
+            of Manufactured Truth
+          </h1>
+          
+          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            It isn't just deception. It's an entire architecture designed to turn your trust into a weapon and your community into a cage.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button onClick={() => document.getElementById('social').scrollIntoView({ behavior: 'smooth' })} className="px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-lg transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center gap-2">
+              <Eye size={20} />
+              See The Mechanics
+            </button>
+            <button onClick={() => document.getElementById('counter').scrollIntoView({ behavior: 'smooth' })} className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg border border-slate-700 transition-all flex items-center justify-center gap-2">
+              <Shield size={20} />
+              The Counter-Measure
+            </button>
+          </div>
+        </div>
         
-        // Mocking lucide-react icons since we can't import them 
-        // directly in a single-file Babel environment.
-        // We will define basic placeholders for the required icons.
-        const IconPlaceholder = ({ size = 24, children }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-slate-600">
+          <ChevronDown size={32} />
+        </div>
+      </section>
+
+      {/* SECTION 1: CIVILIAN WEAPONIZATION */}
+      <section id="social" className="relative z-10 py-24 px-6 bg-slate-950 border-t border-slate-900">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row gap-12 items-center mb-16">
+            <div className="md:w-1/2">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+                Target: <span className="text-cyan-400">Trust</span><br />
+                Weapon: <span className="text-purple-400">Your Circle</span>
+              </h2>
+              <p className="text-slate-400 text-lg leading-relaxed mb-6">
+                The strategy kicks off at the most personal level. They don't use strangers shouting on corners; they use your neighbors. They turn the people you know into unwitting messengers.
+              </p>
+              <div className="p-4 bg-slate-900/50 border-l-4 border-cyan-500 rounded-r-lg">
+                <p className="text-cyan-100 italic">
+                  "This is a narrative that seems to be coming from your neighbors, your coworkers... They effectively become operatives in a mission they don't even know they're on."
+                </p>
+              </div>
+            </div>
+            <div className="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              <TacticCard title="Authenticity Leverage" subtitle="The Hook" icon={Users} delay={1}>
+                The message spreads through trusted faces. You value their opinion, so your guard is down.
+              </TacticCard>
+              <TacticCard title="Empathy Weaponization" subtitle="The Driver" icon={Activity} delay={2}>
+                A manufactured crisis makes you feel you <em>must</em> get involved to protect others.
+              </TacticCard>
+              <TacticCard title="Social Cover" subtitle="The Shield" icon={Shield} delay={3}>
+                An "excuse structure" that creates ambiguity. Are they believers or just following the crowd? This prevents them from being called out.
+              </TacticCard>
+              <TacticCard title="Plausible Deniability" subtitle="The Ghost" icon={Lock} delay={4}>
+                The true source remains hidden. It feels organic, bubbling up from the community itself.
+              </TacticCard>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2: THE INSTITUTIONAL TRAP */}
+      <section id="institution" className="relative z-10 py-24 px-6 bg-slate-900/30">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-block p-3 rounded-full bg-purple-900/20 text-purple-400 mb-4">
+              <Scale size={32} />
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Authority Co-option</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Once the narrative has traction, they escalate. They weaponize the systems designed to protect us.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Connection Lines (Desktop) */}
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-purple-500/30 to-transparent -translate-y-1/2 z-0" />
+
+            {/* Step 1 */}
+            <div className="relative z-10 bg-slate-950 border border-slate-800 p-8 rounded-2xl hover:border-purple-500/50 transition-colors text-center group">
+              <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-slate-500 font-bold text-xl border border-slate-700 mx-auto mb-6 group-hover:text-white group-hover:bg-purple-600 transition-all">1</div>
+              <h3 className="text-xl font-bold text-white mb-3">The Phony Complaint</h3>
+              <p className="text-slate-400 text-sm">
+                It starts with an anonymous tip or fake grievance. No real evidence required. The institution is bound by rules to investigate.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative z-10 bg-slate-950 border border-slate-800 p-8 rounded-2xl hover:border-purple-500/50 transition-colors text-center group">
+              <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-slate-500 font-bold text-xl border border-slate-700 mx-auto mb-6 group-hover:text-white group-hover:bg-purple-600 transition-all">2</div>
+              <h3 className="text-xl font-bold text-white mb-3">Legitimacy by Proxy</h3>
+              <p className="text-slate-400 text-sm">
+                The investigation is leaked. The public sees smoke and assumes fire. The attack is now wrapped in official credibility.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative z-10 bg-slate-950 border border-slate-800 p-8 rounded-2xl hover:border-purple-500/50 transition-colors text-center group shadow-[0_0_30px_rgba(168,85,247,0.1)]">
+              <div className="w-12 h-12 bg-slate-900 rounded-full flex items-center justify-center text-slate-500 font-bold text-xl border border-slate-700 mx-auto mb-6 group-hover:text-white group-hover:bg-purple-600 transition-all">3</div>
+              <h3 className="text-xl font-bold text-white mb-3">Processus Est Poena</h3>
+              <p className="text-slate-400 text-sm">
+                "The process is the punishment." The goal isn't justice. It's to drain resources and destroy reputation through a slow-burn stressor.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: INFORMATIONAL CHAOS */}
+      <section id="chaos" className="relative z-10 py-24 px-6 bg-slate-950 border-t border-slate-900">
+        <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center gap-16">
+          
+          <div className="w-full md:w-1/2 space-y-6">
+             {/* Feature Block */}
+             <div className="p-6 rounded-xl bg-slate-900/40 border-l-4 border-red-500/50">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-2">
+                  <AlertTriangle className="text-red-500" size={20} />
+                  Rhetorical Shortcuts
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  Replacing debate with psychological accusations. "Derangement Syndrome" or "Submission Syndrome." It inverts the burden of proof and shuts down the argument before it begins.
+                </p>
+             </div>
+
+             <div className="p-6 rounded-xl bg-slate-900/40 border-l-4 border-orange-500/50">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-2">
+                  <Zap className="text-orange-500" size={20} />
+                  Flooding the Zone
+                </h3>
+                <p className="text-slate-400 text-sm">
+                  The goal is noise. So many conflicting stories that the average person gives up on finding the truth. Collective action becomes impossible.
+                </p>
+             </div>
+          </div>
+
+          <div className="w-full md:w-1/2 text-left md:text-right">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-none">
+              WAR ON<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-l from-red-500 to-orange-400">REALITY</span>
+            </h2>
+            <p className="text-slate-400 text-lg leading-relaxed ml-auto max-w-lg">
+              The endgame isn't to win an argument. It's to make arguments impossible. To destroy the common ground of shared reality we all stand on.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* SECTION 4: THE COUNTER */}
+      <section id="counter" className="relative z-10 py-24 px-6">
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 to-cyan-950/20 z-0" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          <Shield className="w-20 h-20 text-cyan-400 mx-auto mb-8 animate-pulse" />
+          
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">
+            The Achilles Heel
+          </h2>
+          
+          <p className="text-xl md:text-2xl text-cyan-100 font-light mb-12 leading-relaxed">
+            "This entire complex operation hinges on one single point of failure: <strong className="text-cyan-400 font-black">The perceived credibility of the excuse.</strong>"
+          </p>
+
+          <div className="bg-slate-900/80 backdrop-blur-lg p-8 rounded-2xl border border-cyan-500/30 shadow-[0_0_50px_rgba(34,211,238,0.15)]">
+            <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-widest">How To Fight Back</h3>
+            <div className="h-px w-24 bg-cyan-500 mx-auto mb-6" />
+            <p className="text-slate-300 text-lg mb-6">
+              Without a credible excuse, they can't generate social cover. The institutional weapons fail to fire. The propaganda falls flat.
+            </p>
+            <div className="bg-cyan-900/30 p-4 rounded-lg border border-cyan-500/20 inline-block">
+              <p className="text-cyan-300 font-bold">
+                Your Responsibility: Protect Shared Reality.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="py-12 px-6 bg-slate-950 border-t border-slate-900 text-center">
+        <div className="flex justify-center items-center gap-2 mb-4 text-slate-600">
+          <Terminal size={16} />
+          <span className="font-mono text-sm">SYSTEM_STATUS: <span className="text-green-500">ONLINE</span></span>
+        </div>
+        <p className="text-slate-500 text-sm">
+          Based on the transcript "Civilian Weaponization & Institutional Traps".<br />
+          <span className="opacity-50">Authenticity Ain't Optional.</span>
+        </p>
+      </footer>
+    </div>
+  );
+};
+
+export default ArchitectureOfBelief;            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 {children}
             </svg>
         );
@@ -942,4 +1220,5 @@ The DMS is no longer an insurance policy; it is a **Bait Shield**. [cite_start]Y
 </body>
 
 </html>
+
 
